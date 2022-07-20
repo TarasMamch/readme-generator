@@ -31,7 +31,6 @@ const questions = [
         answer: ''
     },
     {
-        //TODO: add list of options
         question: 'What licenses do you have?',
         answer: ''
     },
@@ -74,10 +73,9 @@ inquirer
             message: `${questions[6].question}`,
             name: 'question[6]',
         },
-        //NOT YET COMPLETE
         {
             type: 'list',
-            choices: ['test1', 'test2'],
+            choices: ['Apache 2.0', 'MIT', 'Github', 'GPLv2', 'Modzilla'],
             message: `${questions[7].question}`,
             name: 'question[7]',
         },
@@ -86,9 +84,9 @@ inquirer
         writeAnswers(response)
     )
 
-function writeFile() {
-    fs.writeFile('./README.md',
-        `# ${questions[0].answer}\n\n${questions[1].answer}\n# Instalation\n${questions[2].answer}\n# Usage\n${questions[3].answer}\n# Contributions\n${questions[4].answer}\n# Questions\n${questions[5].answer}<br>${questions[6].answer}`,
+function writeFile(badge) {
+    fs.writeFile('./WrittenREADME.md',
+        `# ${questions[0].answer}\n${questions[7].answer}![image](${badge})<br>\n${questions[1].answer}\n## Instalation\n${questions[2].answer}\n## Usage\n${questions[3].answer}\n## Contributions\n${questions[4].answer}\n## Questions\n${questions[5].answer}<br>${questions[6].answer}`,
         err => {
             if (err) {
                 console.error(err);
@@ -100,5 +98,18 @@ function writeAnswers(data) {
     for (i = 0; i < 7; i++) {
         questions[i].answer = data.question[i]
     }
-    writeFile()
+    console.log(questions[7].answer)
+    let badge = null
+    if (data.question[7] === 'Apache 2.0') {
+        badge = ('https://img.shields.io/badge/license-Apache2.0-blue%27')
+    } else if (data.question[7] === 'MIT') {
+        badge = ('https://img.shields.io/badge/license-MIT-blueviolet%27')
+    } else if (data.question[7] === 'Github') {
+        badge = ('https://img.shields.io/badge/license-github-success%27')
+    } else if (data.question[7] === 'GPLv2') {
+        badge = ('https://img.shields.io/badge/license-GPLv2-yellowgreen%27')
+    } else if (data.question[7] === 'Modzilla') {
+        badge = ('https://img.shields.io/badge/license-Modzilla-orange%27')
+    }
+    writeFile(badge)
 }
